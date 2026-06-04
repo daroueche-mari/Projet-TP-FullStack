@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // // --- 1. CONFIGURATION API OPENAGENDA ---
-    // const API_KEY = 'a051712ded454a5a999ceebfef9739c3';
-    // const PROXY = "https://cors-anywhere.herokuapp.com/";
-    // const AGENDA_UID = '50100'; // Agenda "La classe, l'œuvre !"
-    // const OPEN_AGENDA_URL = `${PROXY}https://api.openagenda.com/v2/agendas/${AGENDA_UID}/events?key=${API_KEY}&limit=100`;
+    // --- 1. CONFIGURATION API OPENAGENDA (Connexion directe sans proxy) ---
+    const API_KEY = 'a051712ded454a5a999ceebfef9739c3';
+    const AGENDA_UID = '50100'; // Agenda "La classe, l'œuvre !"
+    // Utilisation directe de l'URL d'OpenAgenda
+    const OPEN_AGENDA_URL = `https://api.openagenda.com/v2/agendas/${AGENDA_UID}/events?key=${API_KEY}&limit=100`;
 
     // --- 2. VARIABLES GLOBALES ---
     let allEventsData = [];
@@ -26,66 +26,66 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'live_3', name: "Greyson Joralemon", photo: "asset/artist-image/greyson-joralemon.webp", quote: "Ambiance électrique pour ce set !" }
     ];
 
-    // --- 4. RÉCUPÉRATION DES DONNÉES (API) ---
-   async function fetchOpenAgenda() {
-    try {
-        // 1. On change l'URL pour pointer vers ton fichier local
-        const response = await fetch('./events.json'); 
-        if (!response.ok) throw new Error("Erreur de chargement du fichier JSON");
-        
-        const data = await response.json();
-
-        // On vérifie que la clé 'events' existe bien dans ton JSON
-        if (!data.events) return;
-
-        allEventsData = data.events.map(event => {
-            // Extraction propre des textes (puisque c'est un objet {fr: "..."})
-            const title = (event.title?.fr || "").toLowerCase();
-            const desc = (event.description?.fr || "").toLowerCase();
-            const text = title + " " + desc;
+    // --- 4. RÉCUPÉRATION DES DONNÉES (API DIRECTE) ---
+    async function fetchOpenAgenda() {
+        try {
+            // Appel direct à l'API OpenAgenda
+            const response = await fetch(OPEN_AGENDA_URL); 
+            if (!response.ok) throw new Error("Erreur de chargement de l'API OpenAgenda");
             
-            // Logique de catégories (inchangée, mais vérifie les mots-clés)
-            let cat = 'event'; 
-            if (text.includes('peinture') || text.includes('cyanotype') || text.includes('visuel')) cat = 'visuels';
-            else if (text.includes('musique') || text.includes('théâtre') || text.includes('spectacle')) cat = 'spectacle';
-            else if (text.includes('musée') || text.includes('patrimoine')) cat = 'patrimoine';
-            else if (text.includes('livre') || text.includes('cinéma') || text.includes('conte')) cat = 'lettres';
+            const data = await response.json();
 
-            // 2. Adaptation pour l'image (OpenAgenda v2 utilise base + filename)
-            let imgSource = 'asset/default.webp';
-            if (event.image && event.image.base && event.image.filename) {
-                imgSource = event.image.base + event.image.filename;
-            }
+            // Vérification de la présence des événements
+            if (!data.events) return;
 
-            // 3. Adaptation pour la date (v2 utilise souvent firstTiming)
-            let eventDate = "23 Mai 2026";
-            if (event.firstTiming?.begin) {
-                eventDate = new Date(event.firstTiming.begin).toLocaleDateString('fr-FR');
-            } else if (event.timings?.[0]?.start) {
-                eventDate = new Date(event.timings[0].start).toLocaleDateString('fr-FR');
-            }
+            allEventsData = data.events.map(event => {
+                // Extraction et normalisation des textes textuels
+                const title = (event.title?.fr || "").toLowerCase();
+                const desc = (event.description?.fr || "").toLowerCase();
+                const text = title + " " + desc;
+                
+                // Logique de répartition par catégories
+                let cat = 'event'; 
+                if (text.includes('peinture') || text.includes('cyanotype') || text.includes('visuel')) cat = 'visuels';
+                else if (text.includes('musique') || text.includes('théâtre') || text.includes('spectacle')) cat = 'spectacle';
+                else if (text.includes('musée') || text.includes('patrimoine')) cat = 'patrimoine';
+                else if (text.includes('livre') || text.includes('cinéma') || text.includes('conte')) cat = 'lettres';
 
-            return {
-                uid: event.uid,
-                name: event.title?.fr || "Événement culturel",
-                img: imgSource,
-                date: eventDate,
-                category: cat,
-                price: 20,
-                desc: event.description?.fr ? event.description.fr.substring(0, 100) + "..." : "Découvrez ce projet."
-            };
-        });
+                // Image provenant directement des serveurs d'OpenAgenda v2
+                let imgSource = 'asset/default.webp';
+                if (event.image && event.image.base && event.image.filename) {
+                    imgSource = event.image.base + event.image.filename;
+                }
 
-        // Mise à jour de l'affichage HTML
-        updateDisplay();
-        console.log("✅ Données locales chargées avec succès !");
+                // Récupération de la date
+                let eventDate = "23 Mai 2026";
+                if (event.firstTiming?.begin) {
+                    eventDate = new Date(event.firstTiming.begin).toLocaleDateString('fr-FR');
+                } else if (event.timings?.[0]?.start) {
+                    eventDate = new Date(event.timings[0].start).toLocaleDateString('fr-FR');
+                }
 
-    } catch (error) {
-        console.error("Erreur API locale :", error);
-        const container = document.getElementById('events-container');
-        if (container) container.innerHTML = "<p>Erreur de chargement des événements locaux.</p>";
+                return {
+                    uid: event.uid,
+                    name: event.title?.fr || "Événement culturel",
+                    img: imgSource,
+                    date: eventDate,
+                    category: cat,
+                    price: 20,
+                    desc: event.description?.fr ? event.description.fr.substring(0, 100) + "..." : "Découvrez ce projet."
+                };
+            });
+
+            // Mise à jour de l'affichage HTML
+            updateDisplay();
+            console.log("✅ Données chargées directement depuis OpenAgenda !");
+
+        } catch (error) {
+            console.error("Erreur API OpenAgenda :", error);
+            const container = document.getElementById('events-container');
+            if (container) container.innerHTML = "<p>Erreur lors de la récupération des événements en direct.</p>";
+        }
     }
-}
 
     // --- 5. AFFICHAGE ET FILTRAGE ---
     function updateDisplay() {
@@ -107,7 +107,6 @@ document.addEventListener('DOMContentLoaded', () => {
         pagedData.forEach(event => {
             const clone = eventTemplate.content.cloneNode(true);
             
-            // On rend la carte cliquable pour l'Étape 3
             const card = clone.querySelector('.event-card');
             card.style.cursor = "pointer";
             card.addEventListener('click', (e) => {
@@ -193,9 +192,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-// Panier
+        // Panier
         if (e.target.classList.contains('btn-add-to-cart')) {
-            const btn = e.target; // On stocke le bouton pour le manipuler
+            const btn = e.target;
             let panier = JSON.parse(localStorage.getItem('monPanier')) || [];
             
             const produit = { 
@@ -215,14 +214,12 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('monPanier', JSON.stringify(panier));
             showToast(`${produit.nom} ajouté !`);
 
-            // --- CHANGEMENT D'ÉTAT DU BOUTON ---
-            const originalText = btn.textContent; // On mémorise "Ajouter au panier"
+            const originalText = btn.textContent;
             
-            btn.classList.add('is-added'); // Classe pour le vert (à définir en CSS)
+            btn.classList.add('is-added');
             btn.textContent = "✓ Ajouté";
-            btn.disabled = true; // On désactive pour éviter le spam de clics
+            btn.disabled = true;
 
-            // Retour à l'état initial après 2 secondes
             setTimeout(() => {
                 btn.classList.remove('is-added');
                 btn.textContent = originalText;
@@ -254,27 +251,21 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // --- 9. EFFET D'EAU (VAGUES AU SURVOL) ---
-    // On écoute le mouvement de la souris sur toute la page
     document.addEventListener('mousemove', (e) => {
-        // On vérifie si la souris survole un élément avec la classe 'water-surface'
         const surface = e.target.closest('.water-surface');
         
         if (surface) {
             const rect = surface.getBoundingClientRect();
             
-            // Création de l'élément ripple (la vague)
             const ripple = document.createElement('span');
             ripple.className = 'water-ripple';
             
-            // Positionnement précis par rapport à la souris et à l'élément survole
             ripple.style.left = `${e.clientX - rect.left}px`;
             ripple.style.top = `${e.clientY - rect.top}px`;
             
-            // On cherche l'overlay dans cet élément spécifique
             const overlay = surface.querySelector('.water-overlay');
             if (overlay) {
                 overlay.appendChild(ripple);
-                // Suppression de la vague après l'animation (1 seconde)
                 setTimeout(() => ripple.remove(), 1000);
             }
         }
