@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Finalisez votre commande sur Villa Nova. Vérifiez vos billets pour les meilleurs concerts et spectacles.">
+    <title>Villa Nova | Mon Panier</title>
+    
+    <link rel="icon" type="image/png" href="../asset/favicon/symbole-villanova.webp?v=1">
+    <link rel="stylesheet" href="../css/main.css">
+    <script src="./panier.js" defer></script>
+</head>
+
+<body>
+
+    <header class="main-header" role="banner">
+        <div class="container">
+            <a href="../index.html" class="logo-group" aria-label="Villa Nova - Retour à l'accueil">
+                <picture>
+                    <source srcset="../asset/logo/logo-villanova.webp" type="image/webp">
+                    <img src="../asset/logo/logo-villanova.webp" alt="Logo Villa Nova" class="logo-img" width="45"
+                        height="45" decoding="async">
+                </picture>
+                <span class="logo-text">Villa Nova</span>
+            </a>
+
+            <nav aria-label="Navigation utilitaire">
+                <a href="./panier.html" class="btn-cart">
+                    Panier
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" id="main-content">
+        <h1 class="cart-title">Votre sélection d'événements</h1>
+
+        <div id="empty-cart-msg" class="cart-empty hidden">
+            <p>Votre panier est actuellement vide.</p>
+            <a href="../index.html" class="btn-submit">Retour aux événements</a>
+        </div>
+
+        <div id="full-cart-content">
+            <div class="cart-header" role="rowgroup">
+                <div class="col-desc" role="columnheader">Description</div>
+                <div class="col-date" role="columnheader">Date</div>
+                <div class="col-qty" role="columnheader">Quantité</div>
+                <div class="col-price" role="columnheader">Prix</div>
+            </div>
+
+            <section id="cart-items-container" aria-label="Liste des articles dans le panier">
+                </section>
+
+            <div class="cart-actions-bottom">
+                <a href="../index.html" class="btn-retour-simple">
+                    ← Continuer mes achats
+                </a>
+            </div>
+
+            <section class="cart-footer" aria-labelledby="summary-heading">
+                <h2 id="summary-heading" class="hidden">Résumé de votre commande</h2>
+
+                <div class="summary-box">
+                    <div class="summary-line">
+                        <span>Sous-total</span>
+                        <span id="sub-total" aria-live="polite">0.00 €</span>
+                    </div>
+                    <div class="summary-line">
+                        <span>Frais de réservation</span>
+                        <span>2.00 €</span>
+                    </div>
+                    <div class="summary-total">
+                        <span>TOTAL</span>
+                        <strong id="final-total" aria-live="polite">0.00 €</strong>
+                    </div>
+
+                    <a href="../Paiement/paiement.html" class="btn-submit" id="checkout-button">
+                        Procéder au paiement
+                    </a>
+                    <a href="../index.html" class="btn-continue-shopping">
+                        Continuer mes achats
+                    </a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="main-footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">Villa Nova</div>
+                <div class="footer-links">
+                    <div class="footer-col">
+                        <p class="footer-col-title">Assistance</p>
+                        <ul>
+                            <li><a href="../Contact/contact.html">Nous contacter</a></li>
+                            <li><a href="#">Support technique</a></li>
+                            <li><a href="#">FAQ / Aide</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <nav class="socials" aria-label="Suivez-nous sur les réseaux sociaux">
+                    <a href="https://github.com/daroueche-mari" target="_blank" rel="noopener noreferrer">
+                        <img src="../asset/social-icon/icons8-github-50.png" alt="GitHub" class="social-icon" width="30" height="30">
+                    </a>
+                    <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer">
+                        <img src="../asset/social-icon/icons8-linkedin-48.png" alt="LinkedIn" class="social-icon" width="30" height="30">
+                    </a>
+                </nav>
+                <p class="copyright">&copy; 2026 Villa Nova. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

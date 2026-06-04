@@ -1,0 +1,75 @@
+// ==========================================================================
+// MAIN STYLES (main.scss)
+// ==========================================================================
+
+// 1. IMPORT DES POLICES (Optimisation du rendu)
+@use 'variables';
+@use 'header';
+@use 'events';
+@use 'panier';
+@use 'contact';
+@use 'footer';
+@use 'payment';
+
+// 2. CHARGEMENTS DES MODULES
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700;800&display=swap');
+
+
+// 3. RESET ET STYLES DE BASE
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    // Permet un défilement doux lors du changement de page ou d'ancre
+    scroll-behavior: smooth;
+    // Définit la taille de base pour le calcul des rem
+    font-size: 100%; 
+}
+
+body {
+    font-family: variables.$font-main; 
+    color: variables.$dark-color;
+    background-color: variables.$white;
+    
+    // Utilisation de la taille de base fluide définie dans variables
+    font-size: variables.$font-size-base; 
+    line-height: variables.$line-height-main;
+    
+    // Amélioration du rendu des polices sur tous les navigateurs
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden; // Évite les scrollbars horizontales parasites
+}
+
+// 4. LAYOUT GLOBAL
+.container {
+    max-width: variables.$container-max;
+    margin: 0 auto;
+    // Utilisation des variables de spacing pour la cohérence
+    padding: 0 variables.$spacing-lg;
+    
+    @include variables.tablet {
+        padding: 0 variables.$spacing-lg;
+    }
+}
+
+// 5. ÉTATS INTERACTIFS GLOBAUX
+a, button {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover {
+        color: variables.$white;
+    }
+
+    // Accessibilité Clavier : Contour ultra-visible
+    &:focus-visible {
+        outline: variables.$focus-outline;
+        outline-offset: variables.$outline-offset;
+    }
+}
+

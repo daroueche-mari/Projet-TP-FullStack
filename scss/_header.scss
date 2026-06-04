@@ -1,0 +1,78 @@
+@use "variables";
+@use "sass:color";
+
+// ==========================================================================
+// HEADER PRINCIPAL (_header.scss)
+// ==========================================================================
+
+.main-header {
+    padding: variables.$spacing-md 0;
+    border-bottom: 1px solid variables.$border-light;
+    background-color: variables.$white;
+    position: sticky; // Optionnel : garde le header visible au scroll (Top pour l'UX)
+    top: 0;
+    z-index: 100;
+
+    .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: variables.$spacing-md;
+    }
+
+    // Groupe Logo (Lien vers l'accueil)
+    .logo-group {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: variables.$dark-color;
+        text-decoration: none; // Sécurité si c'est une balise <a>
+        
+        .logo-img { 
+            height: clamp(35px, 5vw, 45px); // Taille fluide pour le logo
+            width: auto;
+            object-fit: contain; 
+        }
+
+        .logo-text { 
+            font-size: clamp(1rem, 3vw, 1.25rem); // Texte fluide
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            text-transform: uppercase;
+        }
+
+        &:hover .logo-text {
+            color: variables.$primary-color;
+        }
+    }
+
+    // Bouton Panier
+    .btn-cart {
+        @include variables.btn-base;
+        background-color: variables.$dark-color;
+        color: variables.$white;
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        // On peut ajouter un petit badge de quantité via le JS plus tard
+        &::before {
+            content: "🛒"; // Ou ton icône SVG
+            font-size: 1.1rem;
+        }
+
+        &:hover {
+            // Utilisation de color.adjust pour passer du noir au rouge VilleNova
+            background-color: variables.$primary-color;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(variables.$primary-color, 0.3);
+        }
+
+        @include variables.tablet {
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+        }
+    }
+}

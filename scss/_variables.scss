@@ -1,0 +1,81 @@
+// ==========================================================================
+// VARIABLES & CONFIGURATION (_variables.scss)
+// ==========================================================================
+
+// --- 1. COULEURS (Optimisées pour contrastes WCAG AAA/AA) ---
+$primary-color:     #ff0000;
+$dark-color:        #1a1a1a; // Noir adouci pour réduire la fatigue visuelle (éco-conception)
+$dark-transparent:  rgba(0, 0, 0, 0.5);
+$text-muted:        #595959; // Ajusté de #666 à #595959 pour le ratio de contraste 4.5:1 (AA)
+$border-light:      #f0f0f0;
+$bg-light:          #f5f5f5;
+$white:             #ffffff;
+
+// --- 2. TYPOGRAPHIE (Fluide & Accessible) ---
+$font-main:         'Urbanist', sans-serif;
+
+// Tailles fluides avec clamp (min, idéal, max)
+$font-size-base:    clamp(1rem, 1.2vw, 1.125rem); // 16px -> 18px
+$font-size-h1:      clamp(2.25rem, 6vw, 4rem);    // Titre Hero
+$font-size-h2:      clamp(1.75rem, 4vw, 2.5rem);  // Titres de sections
+$font-size-h3:      clamp(1.25rem, 3vw, 1.75rem); // Titres de cartes
+
+$line-height-main:  1.6; // Confort de lecture optimal (norme WCAG)
+
+// --- 3. ESPACEMENTS & STRUCTURE ---
+$spacing-sm:        0.5rem;  // 8px
+$spacing-md:        1rem;    // 16px
+$spacing-lg:        2rem;    // 32px
+$container-max:     1200px;
+$radius-main:       12px;
+
+// --- 4. ACCESSIBILITÉ ---
+$focus-outline:     3px solid $primary-color;
+$outline-offset:    3px;
+
+// ==========================================================================
+// MIXINS (Quota: 3 mixins sémantiques)
+// ==========================================================================
+
+// 1. Base des boutons (Incorpore les états de focus pour l'accessibilité)
+@mixin btn-base {
+    display: inline-block;
+    font-family: $font-main;
+    border-radius: $radius-main;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: none;
+    text-align: center;
+    padding: 0.8rem 1.8rem;
+    text-decoration: none;
+
+    &:focus-visible {
+        outline: $focus-outline;
+        outline-offset: $outline-offset;
+    }
+
+    &:active {
+        transform: scale(0.98);
+    }
+}
+
+// 2. Centrage Flexbox (Utilitaire universel)
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+// 3. Gestion Responsive (Approche Mobile First)
+@mixin tablet {
+    @media (min-width: 768px) {
+        @content;
+    }
+}
+
+@mixin desktop {
+    @media (min-width: 1024px) {
+        @content;
+    }
+}

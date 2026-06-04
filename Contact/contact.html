@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Villa Nova - Billetterie officielle. Réservez vos places pour les meilleurs concerts, cinémas et spectacles. Expérience live garantie.">
+    <title>Villa Nova | Contact</title>
+    
+    <link rel="icon" type="image/png" href="../asset/favicon/symbole-villanova.webp?v=1">
+    <link rel="stylesheet" href="../css/main.css">
+    
+    <script src="./contact.js" defer></script>
+</head>
+
+<body>
+
+    <header class="main-header" role="banner">
+        <div class="container">
+            <a href="../index.html" class="logo-group" aria-label="Villa Nova - Retour à l'accueil">
+                <picture>
+                    <source srcset="../asset/logo/logo-villanova.webp" type="image/webp">
+                    <img src="../asset/logo/logo-villanova.webp" alt="Logo Villa Nova" class="logo-img" width="45"
+                        height="45" decoding="async">
+                </picture>
+                <span class="logo-text">Villa Nova</span>
+            </a>
+
+            <nav aria-label="Navigation utilitaire">
+                <a href="../Panier/panier.html" class="btn-cart">
+                    Panier
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main-content">
+        <section class="contact-section" aria-labelledby="contact-title">
+            <div class="container">
+                <h1 id="contact-title" class="contact-title">Nous Contacter</h1>
+
+                <form class="contact-form" id="contact-form" action="#" method="POST" novalidate>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="first-name">Prénom</label>
+                            <input type="text" id="first-name" name="first-name" placeholder="Ex: Jane" required
+                                aria-required="true">
+                            <span class="error-hint"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="last-name">Nom</label>
+                            <input type="text" id="last-name" name="last-name" placeholder="Ex: Smith" required
+                                aria-required="true">
+                            <span class="error-hint"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Adresse email</label>
+                        <input type="email" id="email" name="email" placeholder="email@exemple.fr" required
+                            aria-required="true">
+                        <span class="error-hint"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Votre message</label>
+                        <textarea id="message" name="message" rows="6" placeholder="Comment pouvons-nous vous aider ?"
+                            required aria-required="true"></textarea>
+                        <span class="error-hint"></span>
+                    </div>
+
+                    <button type="submit" class="btn-submit">Envoyer le message</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">Villa Nova</div>
+                <div class="footer-links">
+                    <div class="footer-col">
+                        <p class="footer-col-title">Assistance</p>
+                        <ul>
+                            <li><a href="./contact.html">Nous contacter</a></li>
+                            <li><a href="#">Support technique</a></li>
+                            <li><a href="#">FAQ / Aide</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <nav class="socials" aria-label="Suivez-nous sur les réseaux sociaux">
+                    <a href="https://github.com/daroueche-mari" target="_blank" rel="noopener noreferrer">
+                        <img src="../asset/social-icon/icons8-github-50.png" alt="GitHub" class="social-icon" width="30"
+                            height="30">
+                    </a>
+                    <a href="https://www.linkedin.com/" target="_blank"
+                        rel="noopener noreferrer">
+                        <img src="../asset/social-icon/icons8-linkedin-48.png" alt="LinkedIn" class="social-icon" width="30"
+                            height="30">
+                    </a>
+                </nav>
+                <p class="copyright">&copy; 2026 Villa Nova. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

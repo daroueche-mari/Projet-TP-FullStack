@@ -1,0 +1,180 @@
+@use "variables";
+@use "sass:color";
+
+// ==========================================================================
+// 1. SECTION FEEDBACK (Témoignages)
+// ==========================================================================
+.feedback-section {
+    padding: 80px 0 variables.$spacing-lg; // Augmentation pour faire respirer
+
+    .section-title {
+        font-size: variables.$font-size-h2;
+        margin-bottom: variables.$spacing-lg;
+        font-weight: 800;
+        text-align: center; // Centré pour un look plus pro
+    }
+
+    .feedback-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: variables.$spacing-md;
+
+        @include variables.tablet {
+            grid-template-columns: repeat(2, 1fr);
+            gap: variables.$spacing-lg;
+        }
+
+        @include variables.desktop {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    .feedback-card {
+        padding: variables.$spacing-lg;
+        border: 1px solid variables.$border-light;
+        border-radius: variables.$radius-main;
+        background-color: variables.$white;
+        transition: all 0.3s ease;
+
+        &:hover {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transform: translateY(-5px);
+        }
+
+        .quote {
+            font-size: 1.1rem;
+            font-style: italic;
+            font-weight: 500;
+            margin-bottom: variables.$spacing-md;
+            color: variables.$dark-color;
+            line-height: 1.6;
+
+            &::before { content: "« "; color: variables.$primary-color; }
+            &::after { content: " »"; color: variables.$primary-color; }
+        }
+    }
+}
+
+// ==========================================================================
+// 2. SECTION FORMULAIRE DE CONTACT
+// ==========================================================================
+.contact-section {
+    padding: 60px 0 120px; // Aération du bas de page
+
+    .contact-title {
+        font-size: variables.$font-size-h2;
+        font-weight: 800;
+        margin-bottom: 40px;
+        margin-top: 20px; // Petit boost pour décoller du header
+    }
+
+    .contact-form {
+        max-width: 750px; 
+        margin: 0 auto; // Centrage du formulaire si besoin
+
+        .form-row {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            
+            @include variables.tablet {
+                flex-direction: row;
+                gap: variables.$spacing-lg; // Plus d'espace entre Prénom et Nom
+            }
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 25px; // Plus d'espace entre les rangées
+            flex: 1;
+            position: relative;
+
+            label {
+                font-size: 0.9rem;
+                font-weight: 700;
+                margin-bottom: 8px;
+                color: variables.$dark-color;
+            }
+
+            input, textarea {
+                padding: 14px 18px; // Plus généreux pour le confort
+                border: 2px solid variables.$border-light;
+                border-radius: 10px; // Un peu plus arrondi
+                font-family: variables.$font-main;
+                font-size: 1rem;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                background-color: variables.$bg-light;
+
+                &:focus {
+                    outline: none;
+                    border-color: variables.$primary-color;
+                    background-color: variables.$white;
+                    box-shadow: 0 0 0 4px rgba(variables.$primary-color, 0.1);
+                }
+
+                // GESTION D'ERREUR (Classe ajoutée via JS)
+                &.is-invalid {
+                    border-color: variables.$primary-color;
+                    background-color: rgba(variables.$primary-color, 0.02);
+
+                    &:focus {
+                        box-shadow: 0 0 0 4px rgba(variables.$primary-color, 0.15);
+                    }
+                }
+
+                &::placeholder {
+                    color: variables.$text-muted;
+                    opacity: 0.6;
+                }
+            }
+
+            textarea {
+                min-height: 160px;
+                resize: vertical;
+            }
+
+            // Message d'erreur
+            .error-hint {
+                color: variables.$primary-color;
+                font-size: 0.8rem;
+                font-weight: 600;
+                margin-top: 6px;
+                display: none; // Masqué par défaut
+                animation: errorFadeIn 0.3s ease-out;
+
+                &.visible {
+                    display: block;
+                }
+            }
+        }
+
+        .btn-submit {
+            @include variables.btn-base;
+            background: variables.$dark-color;
+            color: variables.$white;
+            padding: 1.2rem; // Plus imposant
+            width: 100%;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-top: 10px;
+            cursor: pointer;
+
+            &:hover {
+                background: variables.$primary-color;
+                transform: translateY(-3px);
+                box-shadow: 0 10px 20px rgba(variables.$primary-color, 0.2);
+            }
+
+            &:active {
+                transform: translateY(-1px);
+            }
+        }
+    }
+}
+
+// Animation pour l'apparition des erreurs
+@keyframes errorFadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}

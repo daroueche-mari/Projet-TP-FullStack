@@ -1,0 +1,64 @@
+@use "variables";
+
+// Section Hero
+.hero-section {
+    padding: 100px 0;
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('/asset/hero-bg.webp');
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+    color: variables.$white;
+
+    .main-title {
+        font-size: 3rem;
+        font-weight: 900;
+        text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+    }
+}
+
+// Section Live (Scroll horizontal)
+.live-scroll-wrapper {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding: 20px 0;
+    scrollbar-width: thin; // Pour Firefox
+    
+    &::-webkit-scrollbar { // Pour Chrome/Safari
+        height: 6px;
+    }
+}
+
+// Player Vidéo (Gestion de la classe .hidden)
+.main-video {
+    width: 100%;
+    max-width: 1000px;
+    margin: 20px auto;
+    display: block;
+    border-radius: variables.$radius-main;
+    
+    &.hidden {
+        display: none;
+    }
+}
+
+// Grille d'événements
+.events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    padding: 40px 0;
+}
+
+// Style des badges de date (présents dans ton template)
+.event-date-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: variables.$primary-color;
+    color: variables.$white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.85rem;
+}

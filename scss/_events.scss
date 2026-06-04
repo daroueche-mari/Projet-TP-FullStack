@@ -1,0 +1,429 @@
+@use "sass:color";
+@use "variables";
+
+// ==========================================================================
+// 1. UTILITAIRES & RESET
+// ==========================================================================
+.hidden { display: none !important; }
+
+// ==========================================================================
+// 2. GRILLE PRINCIPALE (Billetterie)
+// ==========================================================================
+.events-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr); // Mobile First
+    gap: variables.$spacing-lg;
+    align-items: stretch;
+
+    @include variables.tablet {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include variables.desktop {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Style pour la vidéo injectée en JS */
+.live-video-player {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+/* Style pour le bouton quand l'article est ajouté */
+.btn-add-to-cart.is-added {
+    background-color: #28a745 !important; /* Commentaire valide en CSS */
+    border-color: #28a745 !important;
+    color: white !important;
+}
+// ==========================================================================
+// 3. SECTION LIVES (Scroll Horizontal)
+// ==========================================================================
+.live-scroll-wrapper {
+    display: flex;
+    gap: variables.$spacing-md;
+    overflow-x: auto;
+    padding: variables.$spacing-sm variables.$spacing-sm 40px;
+    margin-bottom: 60px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: auto; 
+    scrollbar-color: variables.$dark-transparent variables.$bg-light;
+
+    // Personnalisation barre de scroll (Chrome/Safari)
+    &::-webkit-scrollbar { height: 10px; }
+    &::-webkit-scrollbar-track { 
+        background: variables.$bg-light; 
+        border-radius: variables.$radius-main; 
+    }
+    &::-webkit-scrollbar-thumb {
+        background: variables.$dark-transparent;
+        border-radius: variables.$radius-main;
+        border: 2px solid variables.$bg-light;
+        &:hover { background: variables.$text-muted; }
+    }
+}
+
+.live-card {
+    flex: 0 0 320px; // Mobile
+    scroll-snap-align: start; 
+    background: variables.$white;
+    padding: variables.$spacing-lg;
+    border-radius: variables.$radius-main;
+    border: 1px solid variables.$border-light;
+    display: flex;
+    flex-direction: column;
+    height: 520px; 
+    overflow: hidden;
+
+    @include variables.tablet {
+        flex: 0 0 450px; // Tablette/Desktop
+    }
+
+    .video-container-placeholder {
+        width: 100%;
+        height: 225px; 
+        margin-bottom: variables.$spacing-md;
+        background-color: variables.$bg-light; 
+        border-radius: variables.$radius-main;
+        overflow: hidden; 
+        position: relative; // Conteneur parent pour l'eau et la vidéo
+
+        // Quand la vidéo est injectée via JS
+        .live-video-player {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            background: #000;
+            position: absolute; // Elle couvre tout le placeholder
+            top: 0;
+            left: 0;
+            z-index: 10; // Passe AU-DESSUS de l'effet d'eau
+        }
+
+        // Structure de la vignette (Image + Eau)
+        .video-preview {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            z-index: 1; // Sous la vidéo si elle existe
+
+            .preview-img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform 0.4s ease;
+            }
+
+            &:hover .preview-img {
+                transform: scale(1.05);
+            }
+        }
+    }
+
+    .quote {
+        font-style: italic;
+        font-size: 1.1rem;
+        color: variables.$dark-color;
+        margin-bottom: variables.$spacing-md;
+        line-height: 1.4;
+        // Limitation propre à 2 lignes (Accessibilité visuelle)
+        display: -webkit-box;
+        line-clamp: 2;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: auto; 
+        padding-bottom: variables.$spacing-sm;
+
+        .avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid variables.$border-light;
+            flex-shrink: 0;
+        }
+
+        .user-text {
+            .name { font-weight: bold; display: block; font-size: 0.95rem; }
+            .desc { font-size: 0.8rem; color: variables.$primary-color; font-weight: 600; }
+        }
+    }
+}
+
+// ==========================================================================
+// 4. CARTES ÉVÉNEMENTS (Classiques)
+// ==========================================================================
+.event-card {
+    display: flex;
+    flex-direction: column;
+    background: variables.$white;
+    padding: variables.$spacing-md;
+    border-radius: variables.$radius-main;
+    border: 1px solid variables.$border-light;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover { 
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    }
+
+    .event-img-wrapper {
+        width: 100%;
+        aspect-ratio: 16 / 10;
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: variables.$spacing-md;
+        background: variables.$bg-light;
+
+        picture, img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            display: block;
+        }
+    }
+
+    .event-date-badge { 
+        color: variables.$primary-color; 
+        font-weight: 700; 
+        font-size: 0.85rem;
+        text-transform: uppercase;
+    }
+
+    h3 { 
+        margin: variables.$spacing-sm 0; 
+        font-size: variables.$font-size-h3; 
+        color: variables.$dark-color;
+    }
+
+    .event-desc { 
+        font-size: 0.9rem; 
+        color: variables.$text-muted; 
+        margin-bottom: variables.$spacing-md; 
+    }
+
+    .event-price { 
+        font-weight: 800; 
+        margin-bottom: variables.$spacing-md;
+        font-size: 1.1rem;
+    }
+
+    .btn-add-to-cart { margin-top: auto; }
+}
+
+// ==========================================================================
+// 5. FILTRES & PAGINATION
+// ==========================================================================
+.filters-bar {
+    margin-top: 80px;
+    margin-bottom: variables.$spacing-lg;
+    
+    .section-subtitle { 
+        font-size: variables.$font-size-h2;
+        font-weight: 800;
+        margin-bottom: 24px; 
+        display: block; 
+    }
+}
+
+.filter-options {
+    display: flex;
+    gap: variables.$spacing-sm;
+    flex-wrap: wrap;
+
+    .filter-link {
+        @include variables.btn-base;
+        background: variables.$bg-light;
+        color: variables.$dark-color;
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+
+        &.active { 
+            background: variables.$dark-color; 
+            color: variables.$white; 
+        }
+        
+        &:hover:not(.active) {
+            background: color.adjust(variables.$bg-light, $lightness: -5%);
+        }
+    }
+}
+
+.pagination-bar {
+    @include variables.flex-center;
+    gap: variables.$spacing-md;
+    margin: variables.$spacing-lg 0;
+
+    .btn-page {
+        @include variables.btn-base;
+        background: variables.$dark-color;
+        color: variables.$white;
+        padding: 0.6rem 1.2rem;
+
+        &:disabled { 
+            background: variables.$border-light; 
+            color: variables.$text-muted; 
+            cursor: not-allowed; 
+        }
+    }
+
+    .page-numbers {
+        display: flex;
+        gap: variables.$spacing-sm;
+
+        .page-link {
+            width: 40px; height: 40px;
+            @include variables.flex-center;
+            border: 1px solid variables.$border-light; 
+            border-radius: 8px; 
+            cursor: pointer;
+            transition: all 0.2s;
+
+            &.active { 
+                background: variables.$dark-color; 
+                color: variables.$white; 
+                border-color: variables.$dark-color; 
+            }
+        }
+    }
+}
+
+// ==========================================================================
+// 6. BOUTONS & TOASTS
+// ==========================================================================
+.btn-toggle-live, .btn-add-to-cart {
+    @include variables.btn-base;
+    background: variables.$dark-color;
+    color: variables.$white;
+    width: 100%;
+
+    &:hover { background: variables.$primary-color; }
+}
+.btn-toggle-live.is-actived {
+     background-color: #28a745 !important; /* Commentaire valide en CSS */
+    border-color: #28a745 !important;
+    color: white !important;
+}
+#toast-container {
+    position: fixed;
+    bottom: variables.$spacing-lg;
+    right: variables.$spacing-lg;
+    z-index: 1000;
+}
+
+.toast-message {
+    background: variables.$dark-color;
+    color: variables.$white;
+    padding: variables.$spacing-md variables.$spacing-lg;
+    border-radius: variables.$radius-main;
+    margin-top: variables.$spacing-sm;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    animation: slideIn 0.3s ease-out, fadeOut 0.3s ease-in 2.7s forwards;
+
+    &::before { content: "✓"; color: #4CAF50; font-weight: bold; }
+}
+
+@keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+@keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+
+// ==========================================================================
+// 7. EFFET D'ONDE SUR LA SURFACE DE L'EAU
+.water-surface {
+    position: relative;
+    overflow: hidden; 
+    cursor: pointer;
+    background: #000; // Fond noir pour éviter le flash gris au chargement
+
+    // La vidéo doit passer devant tout le reste quand elle est présente
+    .live-video-player {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 10; // Priorité maximale
+        object-fit: cover;
+    }
+
+    .video-preview {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        z-index: 1; // Sous la vidéo
+    }
+
+    .water-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none; 
+        z-index: 5; // Au-dessus de l'image mais sous la vidéo
+    }
+
+    .water-ripple {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: rgba(255, 255, 255, 0.4); 
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        animation: rippleEffect 1s ease-out forwards;
+        z-index: 6;
+    }
+}
+
+@keyframes rippleEffect {
+    0% {
+        width: 0; height: 0;
+        opacity: 0.5;
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+    }
+    100% {
+        width: 150px; height: 150px;
+        opacity: 0;
+        box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0);
+    }
+}
+
+.source-info {
+    display: flex;
+    justify-content: center;
+    font-size: 0.9rem;
+    color: #666; // Un gris doux pour ne pas surcharger visuellement
+    margin: 15px 0 25px 5px; // Aligné avec la marge de tes boutons
+    font-family: inherit; // Garde la même police que le reste du site
+
+    strong {
+        color: #1a1a1a; // Le même noir que tes boutons "Tous" actifs
+        font-weight: 600;
+    }
+
+    .event-link {
+        color: #000; 
+        text-decoration: none;
+        margin-left: 10px;
+        padding-bottom: 2px;
+        border-bottom: 1px solid #ddd; // Soulignement discret
+        transition: all 0.3s ease;
+
+        &:hover {
+            color: #444;
+            border-bottom-color: #1a1a1a; // S'assombrit au survol
+        }
+    }
+}

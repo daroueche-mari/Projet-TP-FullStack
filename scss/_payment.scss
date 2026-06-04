@@ -1,0 +1,198 @@
+@use "variables";
+@use "sass:color";
+
+.payment-container {
+    padding: variables.$spacing-lg 0;
+    background-color: variables.$bg-light;
+
+    .payment-title {
+        font-size: variables.$font-size-h2;
+        font-weight: 800;
+        margin-bottom: variables.$spacing-lg;
+        color: variables.$dark-color;
+    }
+}
+
+// Conteneur flexible pour les deux colonnes
+.payment-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    @include variables.tablet {
+        flex-direction: row;
+        align-items: flex-start; // Empêche la colonne de droite de s'étirer
+    }
+}
+
+// 1. COLONNE GAUCHE : FORMULAIRE
+.payment-card {
+    flex: 2; // Occupe 2/3 de l'espace sur desktop
+    background: variables.$white;
+    padding: 40px;
+    border-radius: variables.$radius-main;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+    border: 1px solid variables.$border-light;
+
+    .form-row {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+
+        @include variables.tablet {
+            flex-direction: row;
+            gap: 20px;
+        }
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+        flex: 1;
+
+        label {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: variables.$dark-color;
+        }
+
+        input, .custom-select {
+            padding: 12px 15px;
+            border: 2px solid variables.$border-light;
+            border-radius: 8px;
+            font-family: variables.$font-main;
+            font-size: 1rem;
+            background-color: variables.$bg-light;
+            transition: all 0.3s ease;
+
+            &:focus {
+                outline: none;
+                border-color: variables.$primary-color;
+                background-color: variables.$white;
+                box-shadow: 0 0 0 4px rgba(variables.$primary-color, 0.1);
+            }
+        }
+    }
+
+    .btn-submit-payment {
+        @include variables.btn-base;
+        background: variables.$primary-color;
+        color: variables.$white;
+        width: 100%;
+        padding: 1.2rem;
+        font-size: 1.2rem;
+        font-weight: bold;
+        text-transform: none;
+        margin-top: 20px;
+        border-radius: 8px;
+        cursor: pointer;
+
+        &:hover {
+            background: color.adjust(variables.$primary-color, $lightness: -10%);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 0, 0, 0.2);
+        }
+    }
+}
+
+// 2. COLONNE DROITE : RÉCAPITULATIF
+.order-summary {
+    flex: 1; // Occupe 1/3 de l'espace
+
+    @include variables.tablet {
+        position: sticky;
+        top: 40px; // Reste fixé au scroll
+    }
+
+    .summary-content {
+        background: variables.$white;
+        padding: 30px;
+        border-radius: variables.$radius-main;
+        border: 1px solid variables.$border-light;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03);
+
+        h3 {
+            font-size: variables.$font-size-h3;
+            font-weight: 800;
+            margin-bottom: 25px;
+            border-bottom: 2px solid variables.$bg-light;
+            padding-bottom: 10px;
+        }
+
+        .summary-items {
+            .summary-item {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                font-size: 0.95rem;
+                color: variables.$text-muted;
+
+                strong {
+                    color: variables.$dark-color;
+                }
+            }
+        }
+
+        .summary-divider {
+            border: 0;
+            border-top: 1px solid variables.$border-light;
+            margin: 20px 0;
+        }
+
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+
+            span:first-child {
+                font-weight: 700;
+                font-size: 1.1rem;
+            }
+
+            .price {
+                font-size: 1.5rem;
+                font-weight: 900;
+                color: variables.$dark-color;
+            }
+        }
+
+        .security-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: #f0fff4; // Vert très clair
+            color: #2f855a; // Vert foncé
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            border: 1px solid #c6f6d5;
+        }
+    }
+}
+/* Style pour les erreurs de validation */
+.is-invalid {
+    border-color: #dc3545 !important; // Rouge erreur
+    background-color: #fff8f8;
+    
+    &::placeholder {
+        color: #dc3545;
+        opacity: 0.5;
+    }
+}
+
+/* Style pour les lignes du récapitulatif */
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+
+    .item-price {
+        color: var(--text-color);
+    }
+}
