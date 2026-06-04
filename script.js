@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 1. CONFIGURATION API OPENAGENDA (Connexion directe sans proxy) ---
     const API_KEY = 'a051712ded454a5a999ceebfef9739c3';
     const AGENDA_UID = '50100'; // Agenda "La classe, l'œuvre !"
-    // Utilisation directe de l'URL d'OpenAgenda
     const OPEN_AGENDA_URL = `https://api.openagenda.com/v2/agendas/${AGENDA_UID}/events?key=${API_KEY}&limit=100`;
 
     // --- 2. VARIABLES GLOBALES ---
@@ -29,17 +28,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 4. RÉCUPÉRATION DES DONNÉES (API DIRECTE) ---
     async function fetchOpenAgenda() {
         try {
-            // Appel direct à l'API OpenAgenda
-            const response = await fetch(OPEN_AGENDA_URL); 
+            const response = await fetch(OPEN_AGENDA_URL);
             if (!response.ok) throw new Error("Erreur de chargement de l'API OpenAgenda");
             
             const data = await response.json();
 
-            // Vérification de la présence des événements
             if (!data.events) return;
 
             allEventsData = data.events.map(event => {
-                // Extraction et normalisation des textes textuels
+                // Extraction et normalisation des textes
                 const title = (event.title?.fr || "").toLowerCase();
                 const desc = (event.description?.fr || "").toLowerCase();
                 const text = title + " " + desc;
@@ -51,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 else if (text.includes('musée') || text.includes('patrimoine')) cat = 'patrimoine';
                 else if (text.includes('livre') || text.includes('cinéma') || text.includes('conte')) cat = 'lettres';
 
-                // Image provenant directement des serveurs d'OpenAgenda v2
+                // Image provenant d'OpenAgenda v2
                 let imgSource = 'asset/default.webp';
                 if (event.image && event.image.base && event.image.filename) {
                     imgSource = event.image.base + event.image.filename;
@@ -65,6 +62,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     eventDate = new Date(event.timings[0].start).toLocaleDateString('fr-FR');
                 }
 
+                // URL officielle de l'événement sur OpenAgenda (Sécurité si elle n'existe pas)
+                let officialUrl = event.url || `https://openagenda.com/agendas/${AGENDA_UID}/events/${event.uid}`;
+
                 return {
                     uid: event.uid,
                     name: event.title?.fr || "Événement culturel",
@@ -72,18 +72,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     date: eventDate,
                     category: cat,
                     price: 20,
-                    desc: event.description?.fr ? event.description.fr.substring(0, 100) + "..." : "Découvrez ce projet."
+                    desc: event.description?.fr ? event.description.fr.substring(0, 100) + "..." : "Découvrez ce projet.",
+                    url: officialUrl // 🌟 Sauvegardé ici pour être utilisé au clic plus bas
                 };
             });
 
-            // Mise à jour de l'affichage HTML
             updateDisplay();
             console.log("✅ Données chargées directement depuis OpenAgenda !");
 
         } catch (error) {
             console.error("Erreur API OpenAgenda :", error);
-            const container = document.getElementById('events-container');
-            if (container) container.innerHTML = "<p>Erreur lors de la récupération des événements en direct.</p>";
+            if (eventsContainer) eventsContainer.innerHTML = "<p>Erreur lors de la récupération des événements en direct.</p>";
         }
     }
 
@@ -109,9 +108,11 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const card = clone.querySelector('.event-card');
             card.style.cursor = "pointer";
+            
+            // 🌟 ÉCOUTEUR DE CLIC CORRIGÉ POUR OUVRIR L'URL OFFICIELLE
             card.addEventListener('click', (e) => {
                 if (!e.target.classList.contains('btn-add-to-cart')) {
-                    window.location.href = `event-detail.html?id=${event.uid}`;
+                    window.open(event.url, '_blank'); // Ouvre la vraie URL sauvegardée
                 }
             });
 
@@ -173,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 7. ÉCOUTEURS D'ÉVÉNEMENTS (CLICS) ---
+    // --- 7. ÉCOUTEURS D'ÉVÉNEMENTS (CLICS GLOBAUX) ---
     document.addEventListener('click', (e) => {
         // Toggle Video
         if (e.target.classList.contains('btn-toggle-live')) {
@@ -250,16 +251,13 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => { toast.classList.add('fade-out'); setTimeout(() => toast.remove(), 500); }, 2500);
     };
 
-    // --- 9. EFFET D'EAU (VAGUES AU SURVOL) ---
+    // --- 9. EFFET D'EAU ---
     document.addEventListener('mousemove', (e) => {
         const surface = e.target.closest('.water-surface');
-        
         if (surface) {
             const rect = surface.getBoundingClientRect();
-            
             const ripple = document.createElement('span');
             ripple.className = 'water-ripple';
-            
             ripple.style.left = `${e.clientX - rect.left}px`;
             ripple.style.top = `${e.clientY - rect.top}px`;
             
