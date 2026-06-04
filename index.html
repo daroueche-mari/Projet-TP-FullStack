@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Villa Nova - Billetterie officielle. Réservez vos places pour les meilleurs concerts, cinémas et spectacles. Expérience live garantie.">
+    <title>Villa Nova | Billetterie Spectacles & Concerts</title>
+
+    <link rel="icon" type="image/png" href="./asset/favicon/symbole-villanova.webp?v=1">
+    <link rel="stylesheet" href="./css/main.css">
+
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+    <header class="main-header" role="banner">
+        <div class="container">
+            <a href="index.html" class="logo-group" aria-label="Villa Nova - Retour à l'accueil">
+                <picture>
+                    <source srcset="./asset/logo/logo-villanova.webp" type="image/webp">
+                    <img src="./asset/logo/logo-villanova.webp" alt="Logo Villa Nova" class="logo-img" width="45"
+                        height="45" decoding="async">
+                </picture>
+                <span class="logo-text">Villa Nova</span>
+            </a>
+
+            <nav aria-label="Navigation utilitaire">
+                <a href="./Panier/panier.html" class="btn-cart">
+                    Panier
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main-content">
+        <section class="hero-section">
+            <div class="container">
+                <h1 class="main-title">Découvrez nos Événements en Direct</h1>
+            </div>
+        </section>
+
+        <section class="live-section" aria-labelledby="live-heading">
+            <div class="container">
+                <h2 id="live-heading" class="section-title">Actuellement en direct</h2>
+
+                <div class="live-scroll-wrapper" id="live-container" role="region" aria-live="polite">
+                </div>
+
+                <hr class="section-divider">
+            </div>
+        </section>
+
+        <template id="live-card-template">
+            <article class="live-card">
+                <p class="quote"></p>
+                <div class="user-info">
+                    <img src="" alt="" class="avatar" width="50" height="50" loading="lazy">
+                    <div class="user-text">
+                        <span class="name"></span>
+                        <span class="desc">Live Streaming</span>
+                    </div>
+                </div>
+                <button class="btn-toggle-live" aria-expanded="false">▶ Voir le direct</button>
+            </article>
+        </template>
+
+        <section class="filters-section" aria-label="Filtrer les événements">
+            <div class="container">
+                <div class="filters-bar">
+                    <h2 class="section-subtitle">Explorer par thématique</h2>
+                    <nav class="filter-options" role="tablist">
+                        <button class="filter-link active" data-filter="all" role="tab" aria-selected="true">
+                            Tous
+                        </button>
+
+                        <button class="filter-link" data-filter="visuels" role="tab" aria-selected="false">
+                            Arts Visuels
+                        </button>
+
+                        <button class="filter-link" data-filter="spectacle" role="tab" aria-selected="false">
+                            Spectacles
+                        </button>
+
+                        <button class="filter-link" data-filter="patrimoine" role="tab" aria-selected="false">
+                            Patrimoine
+                        </button>
+
+                        <button class="filter-link" data-filter="lettres" role="tab" aria-selected="false">
+                            Littérature & Film
+                        </button>
+                    </nav>
+                </div>
+            </div>
+            <p class="source-info">
+               Source OpenAgenda API :<strong>La Classe, l'œuvre, 2026 !</strong>
+                <a href="https://openagenda.com/fr/lclo-2026?domaine-artistique%5B0%5D=142" target="_blank"
+                    rel="noopener noreferrer" class="event-link">
+                    Lien vers l'événement
+                </a>
+            </p>
+        </section>
+        <section class="events-section">
+            <div class="container">
+                <nav class="pagination-bar" aria-label="Sélection de page">
+                    <button class="btn-page" id="prev-page" disabled aria-label="Page précédente">Précédent</button>
+                    <div class="page-numbers" id="page-numbers" role="navigation"></div>
+                    <button class="btn-page" id="next-page" aria-label="Page suivante">Suivant</button>
+                </nav>
+
+                <div class="events-grid" id="events-container">
+                </div>
+            </div>
+        </section>
+
+        <template id="event-template">
+            <article class="event-card">
+                <div class="event-img-wrapper">
+                    <picture>
+                        <source class="event-webp-source" type="image/webp">
+                        <img src="" class="event-img" loading="lazy" alt="" width="800" height="500">
+                    </picture>
+                </div>
+                <div class="event-date-badge"></div>
+                <h3 class="event-title"></h3>
+                <p class="event-desc"></p>
+                <div class="event-price"></div>
+                <button class="btn-add-to-cart" aria-label="Ajouter cet événement au panier">Ajouter au panier</button>
+            </article>
+        </template>
+    </main>
+
+    <footer class="main-footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">Villa Nova</div>
+                <div class="footer-links">
+                    <div class="footer-col">
+                        <p class="footer-col-title">Assistance</p>
+                        <ul>
+                            <li><a href="./Contact/contact.html">Nous contacter</a></li>
+                            <li><a href="#">Support technique</a></li>
+                            <li><a href="#">FAQ / Aide</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <nav class="socials" aria-label="Suivez-nous sur les réseaux sociaux">
+                    <a href="https://github.com/votre-user" target="_blank" rel="noopener noreferrer"
+                        aria-label="GitHub (nouvelle fenêtre)">
+                        <img src="./asset/social-icon/icons8-github-50.png" alt="" class="social-icon" width="30"
+                            height="30">
+                    </a>
+                    <a href="https://www.linkedin.com/in/votre-profil/" target="_blank" rel="noopener noreferrer"
+                        aria-label="LinkedIn (nouvelle fenêtre)">
+                        <img src="./asset/social-icon/icons8-linkedin-48.png" alt="" class="social-icon" width="30"
+                            height="30">
+                    </a>
+                </nav>
+                <p class="copyright">&copy; 2026 Villa Nova. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="toast-container" aria-live="assertive" aria-atomic="true"></div>
+
+</body>
+
+</html>
