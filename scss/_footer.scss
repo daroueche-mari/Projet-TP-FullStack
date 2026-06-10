@@ -8,7 +8,7 @@
   padding: 60px 0 variables.$spacing-lg;
   border-top: 1px solid variables.$border-light;
   margin-top: 80px;
-  background-color: variables.$white;
+  background-color: variables.$grey;
 
   .footer-top {
     display: flex;
@@ -62,7 +62,7 @@
           margin-bottom: 12px;
 
           a {
-            color: variables.$text-muted; // Ratio 4.5:1 respecté grâce à ta modif dans variables
+            color: variables.$dark-color; // Ratio 4.5:1 respecté grâce à ta modif dans variables
             font-size: 0.9rem;
             transition: all 0.2s ease;
             display: inline-block; // Pour que le transform fonctionne au besoin
@@ -126,7 +126,7 @@
       // Colonne du milieu
       grid-column: 2;
       font-size: 0.85rem;
-      color: variables.$text-muted;
+      color: variables.$dark-color;
       text-align: center;
       margin: 0; // Retire les marges par défaut des <p>
     }

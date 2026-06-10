@@ -964,7 +964,7 @@
   padding: 60px 0 2rem;
   border-top: 1px solid #f0f0f0;
   margin-top: 80px;
-  background-color: #ffffff;
+  background-color: #858484;
 }
 .main-footer .footer-top {
   display: flex;
@@ -1017,7 +1017,7 @@
   margin-bottom: 12px;
 }
 .main-footer .footer-links .footer-col ul li a {
-  color: #595959;
+  color: #1a1a1a;
   font-size: 0.9rem;
   transition: all 0.2s ease;
   display: inline-block;
@@ -1067,7 +1067,7 @@
 .main-footer .footer-bottom .copyright {
   grid-column: 2;
   font-size: 0.85rem;
-  color: #595959;
+  color: #1a1a1a;
   text-align: center;
   margin: 0;
 }
