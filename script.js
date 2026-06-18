@@ -207,7 +207,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 btn.textContent = "▶ Voir le direct";
                 btn.classList.remove('is-actived');
             } else {
-                placeholder.innerHTML = `<video controls autoplay class="live-video-player"><source src="asset/video/live-stream.mp4" type="video/mp4"></video>`;
+                placeholder.innerHTML = `
+                    <video controls autoplay class="live-video-player">
+                        <source src="asset/video/live-stream.webm" type="video/webm">
+                        <source src="asset/video/live-stream.mp4" type="video/mp4">
+                        Votre navigateur ne supporte pas la lecture de vidéos.
+                    </video>`;
                 btn.classList.add('is-actived');
                 btn.textContent = "✖ Fermer le direct";
             }
