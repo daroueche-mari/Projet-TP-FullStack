@@ -257,9 +257,9 @@
         }
     }
 }
-
 .pagination-bar {
     @include variables.flex-center;
+    flex-wrap: wrap; // Permet de gérer la barre complète (Boutons Précédent/Suivant + Numéros) sur les très petits écrans
     gap: variables.$spacing-md;
     margin: variables.$spacing-lg 0;
 
@@ -278,10 +278,13 @@
 
     .page-numbers {
         display: flex;
+        justify-content: center; // Aligne bien les numéros au centre
+        flex-wrap: wrap;         // 🌟 INDISPENSABLE : Permet aux numéros de passer à la ligne proprement sur mobile
         gap: variables.$spacing-sm;
 
         .page-link {
-            width: 40px; height: 40px;
+            width: 40px; 
+            height: 40px;
             @include variables.flex-center;
             border: 1px solid variables.$border-light; 
             border-radius: 8px; 

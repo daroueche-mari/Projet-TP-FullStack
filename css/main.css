@@ -340,6 +340,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
   gap: 1rem;
   margin: 2rem 0;
 }
@@ -374,6 +375,8 @@
 }
 .pagination-bar .page-numbers {
   display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
   gap: 0.5rem;
 }
 .pagination-bar .page-numbers .page-link {
