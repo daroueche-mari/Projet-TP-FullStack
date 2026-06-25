@@ -133,43 +133,70 @@ document.addEventListener('DOMContentLoaded', () => {
         updatePageNumbers(totalPages);
     }
 
-   function updatePageNumbers(totalPages) {
-    if (!pageNumbersContainer) return;
-    pageNumbersContainer.innerHTML = '';
-    if (totalPages <= 1) return;
-    // 📱 Détection : l'utilisateur est-il sur un écran mobile ? (< 768px)
-    const isMobile = window.innerWidth < 768;
-    for (let i = 1; i <= totalPages; i++) {
-        // 🌟 LOGIQUE RESPONSIVE : Si on est sur mobile, on épure la liste
-        if (isMobile) {
-            // On ne garde que la 1ère page, la dernière page, et les pages directement à côté de la page active
-            if (i !== 1 && i !== totalPages && Math.abs(i - currentPage) > 1) {
-                
-                // On ajoute des petits points "..." pour boucher les trous visuels (une seule fois)
-                if (i === 2 || i === totalPages - 1) {
-                    if (pageNumbersContainer.lastChild?.textContent !== '...') {
-                        const dots = document.createElement('span');
-                        dots.textContent = '...';
-                        dots.style.color = '#888';
-                        dots.style.padding = '0 5px';
-                        pageNumbersContainer.appendChild(dots);
-                    }
+  function updatePageNumbers(totalPages) {
+        if (!pageNumbersContainer) return;
+        pageNumbersContainer.innerHTML = '';
+        if (totalPages <= 1) return;
+
+        // 📱 Détection : l'utilisateur est-il sur un écran mobile ? (< 768px)
+        const isMobile = window.innerWidth < 768;
+
+        // ─── 1. GESTION DES FLÈCHES DE TON HTML ───
+        const prevBtn = document.getElementById('prev-page');
+        const nextBtn = document.getElementById('next-page');
+
+        if (prevBtn && nextBtn) {
+            // Configuration de la flèche Précédent
+            prevBtn.disabled = currentPage === 1;
+            prevBtn.onclick = () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    updateDisplay();
+                    document.querySelector('.filters-section')?.scrollIntoView({ behavior: 'smooth' });
                 }
-                continue; // On passe à la page suivante sans créer le bouton
-            }
+            };
+
+            // Configuration de la flèche Suivant
+            nextBtn.disabled = currentPage === totalPages;
+            nextBtn.onclick = () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    updateDisplay();
+                    document.querySelector('.filters-section')?.scrollIntoView({ behavior: 'smooth' });
+                }
+            };
         }
-        // --- Ton code d'origine (inchangé) ---
-        const btn = document.createElement('button');
-        btn.className = `page-link ${i === currentPage ? 'active' : ''}`;
-        btn.textContent = i;
-        btn.onclick = () => {
-            currentPage = i;
-            updateDisplay();
-            document.querySelector('.filters-section')?.scrollIntoView({ behavior: 'smooth' });
-        };
-        pageNumbersContainer.appendChild(btn);
+
+        // ─── 2. BOUCLE DES NUMÉROS DE PAGE ───
+        for (let i = 1; i <= totalPages; i++) {
+            // Logique Responsive Mobile (Épuration de la liste)
+            if (isMobile) {
+                if (i !== 1 && i !== totalPages && Math.abs(i - currentPage) > 1) {
+                    if (i === 2 || i === totalPages - 1) {
+                        if (pageNumbersContainer.lastChild?.textContent !== '...') {
+                            const dots = document.createElement('span');
+                            dots.textContent = '...';
+                            dots.style.color = '#888';
+                            dots.style.padding = '0 5px';
+                            pageNumbersContainer.appendChild(dots);
+                        }
+                    }
+                    continue; 
+                }
+            }
+
+            // Génération des boutons numériques
+            const btn = document.createElement('button');
+            btn.className = `page-link ${i === currentPage ? 'active' : ''}`;
+            btn.textContent = i;
+            btn.onclick = () => {
+                currentPage = i;
+                updateDisplay();
+                document.querySelector('.filters-section')?.scrollIntoView({ behavior: 'smooth' });
+            };
+            pageNumbersContainer.appendChild(btn);
+        }
     }
-}
 
     // --- 6. GESTION DES LIVES ---
     function initLives() {
