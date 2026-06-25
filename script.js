@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- 1. CONFIGURATION API OPENAGENDA (Connexion directe sans proxy) ---
-    const API_KEY = 'a051712ded454a5a999ceebfef9739c3';
-    const AGENDA_UID = '50100'; // Agenda "La classe, l'œuvre !"
+    const API_KEY = CONFIG.API_KEY;
+    const AGENDA_UID = CONFIG.AGENDA_UID;
     const OPEN_AGENDA_URL = `https://api.openagenda.com/v2/agendas/${AGENDA_UID}/events?key=${API_KEY}&limit=100`;
 
     // --- 2. VARIABLES GLOBALES ---
